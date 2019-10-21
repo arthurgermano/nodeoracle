@@ -4,7 +4,7 @@ FROM debian:latest
 RUN apt update && apt upgrade -y
 
 # Installing updated wget
-RUN apt install -y wget curl python g++ make debpear php-dev
+RUN apt install -y wget curl python g++ make debpear php-dev libaio1
 
 RUN wget -qO- http://raw.githubusercontent.com/creationix/nvm/v0.35.0/install.sh | bash \
 && export NVM_DIR="$HOME/.nvm" \
