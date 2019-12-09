@@ -4,17 +4,18 @@ FROM debian:latest
 RUN apt update && apt upgrade -y
 
 # Installing updated wget
-RUN apt install -y wget curl python g++ make debpear php-dev libaio1
+RUN apt install -y wget curl python g++ make debpear php-dev libaio1 apt-utils
 
-RUN wget -qO- http://raw.githubusercontent.com/creationix/nvm/v0.35.0/install.sh | bash \
+RUN wget -qO- http://raw.githubusercontent.com/nvm-sh/nvm/v0.35.1/install.sh | bash \
 && export NVM_DIR="$HOME/.nvm" \
 && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  \
 && [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" \
-&& nvm install 12 \
-&& nvm use 12 \
+&& nvm install 13 \
+&& nvm use 13 \
 && npm config set registry http://registry.npmjs.org \
 && npm config set unsafe-perm true \
 && npm install -g @vue/cli \
+&& npm install -g serve \
 && npm install -g pm2
 
 # Install the Oracle Instant Client
@@ -39,11 +40,5 @@ RUN apt autoremove -y
 
 # Removing everything from /tmp
 RUN rm -rf /tmp/*
-
-# Script to enable or delete proxy via command
-COPY proxyscript.sh /tmp
-RUN chmod 777 /tmp/proxyscript.sh
-RUN echo 'alias enProxy="eval \"$(./tmp/proxyscript.sh)\""' >> ~/.bashrc
-RUN echo 'alias delProxy="eval \"$(./tmp/proxyscript.sh delete)\""' >> ~/.bashrc
 
 MAINTAINER Arthur Jose Germano <email@email.com>
